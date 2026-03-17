@@ -1,11 +1,11 @@
 {
   "report_metadata": {
     "report_date": "2026-03-17",
-    "report_time_utc": "2026-03-17T16:19:31Z",
+    "report_time_utc": "2026-03-17T16:35:50Z",
     "timezone": "Europe/London",
     "coverage_window": {
-      "start": "2026-03-16T16:19:31Z",
-      "end": "2026-03-17T16:19:31Z"
+      "start": "2026-03-16T16:35:50Z",
+      "end": "2026-03-17T16:35:50Z"
     },
     "data_quality_note": "NBP, TTF, EU ETS, ethylene and REMIT still need manual support."
   },
@@ -41,7 +41,7 @@
     "gas": {
       "uk_nbp": [
         {
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "price": null,
           "unit": "GBP/therm",
           "source": "manual_required",
@@ -50,7 +50,7 @@
       ],
       "eu_ttf": [
         {
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "price": null,
           "unit": "EUR/MWh",
           "source": "manual_required",
@@ -65,7 +65,7 @@
           "flow_direction": "unknown",
           "value": null,
           "unit": "kWh/d",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "ENTSOG",
           "data_quality": "unavailable"
         }
@@ -76,7 +76,7 @@
           "metric": "sendout",
           "value": null,
           "unit": "kWh/d",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "ENTSOG",
           "data_quality": "unavailable"
         }
@@ -87,7 +87,7 @@
           "metric": "storage_level",
           "value": null,
           "unit": "%",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "GIE_AGSI_plus",
           "data_quality": "unavailable",
           "note": "Set GIE_API_KEY if your AGSI access requires a personal API key."
@@ -97,7 +97,7 @@
           "metric": "storage_level",
           "value": null,
           "unit": "%",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "GIE_AGSI_plus",
           "data_quality": "unavailable",
           "note": "Set GIE_API_KEY if your AGSI access requires a personal API key."
@@ -111,7 +111,7 @@
           "region": "GB",
           "value": 68,
           "unit": "gCO2/kWh",
-          "timestamp": "2026-03-17T15:30Z",
+          "timestamp": "2026-03-17T16:00Z",
           "source": "NESO_Carbon_Intensity",
           "index": "low"
         }
@@ -122,7 +122,7 @@
           "region": "FR-GB",
           "value": null,
           "unit": "MW",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "ENTSO-E",
           "data_quality": "unavailable",
           "note": "Set ENTSOE_API_KEY."
@@ -132,7 +132,7 @@
           "region": "NL-GB",
           "value": null,
           "unit": "MW",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "ENTSO-E",
           "data_quality": "unavailable",
           "note": "Set ENTSOE_API_KEY."
@@ -145,7 +145,7 @@
           "source": "EIA",
           "data_quality": "unavailable",
           "metric": "brent",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "note": "Set EIA_API_KEY."
         }
       ],
@@ -154,7 +154,7 @@
           "metric": "eu_ets_proxy",
           "value": null,
           "unit": "EUR/tCO2",
-          "timestamp": "2026-03-17T16:19:31Z",
+          "timestamp": "2026-03-17T16:35:50Z",
           "source": "manual_required",
           "note": "Read from Ember or ICE EUA futures."
         }
@@ -168,7 +168,7 @@
         "region": "Europe",
         "price": null,
         "unit": "EUR/mt",
-        "timestamp": "2026-03-17T16:19:31Z",
+        "timestamp": "2026-03-17T16:35:50Z",
         "source": "manual_required",
         "note": "No reliable free API."
       }
@@ -179,7 +179,7 @@
         "proxy_name": "IMF_PNGASEU_PFERT",
         "value": null,
         "unit": "index",
-        "timestamp": "2026-03-17T16:19:31Z",
+        "timestamp": "2026-03-17T16:35:50Z",
         "source": "IMF_Datamapper",
         "is_proxy": true,
         "data_quality": "unavailable"
@@ -190,7 +190,7 @@
         "name": "naphtha_proxy",
         "value": null,
         "unit": "USD/mt",
-        "timestamp": "2026-03-17T16:19:31Z",
+        "timestamp": "2026-03-17T16:35:50Z",
         "source": "proxy_from_brent",
         "note": "Estimate from Brent x 7.45 - 50, or overwrite manually."
       }
@@ -207,7 +207,7 @@
   "plant_disruptions": [
     {
       "event_id": "remit_manual_check",
-      "date_detected": "2026-03-17T16:19:31Z",
+      "date_detected": "2026-03-17T16:35:50Z",
       "site_name": "Manual check required",
       "country": "EU/UK",
       "sector": "all",
