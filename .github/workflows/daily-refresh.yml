@@ -1,0 +1,41 @@
+name: Daily refresh
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 6 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run refresh
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          GIE_API_KEY: ${{ secrets.GIE_API_KEY }}
+          OUTPUT_DIR: .
+        run: python fetch_data_pack_fixed.py
+
+      - name: Commit latest files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json data_pack_*.json
+          git diff --cached --quiet || git commit -m "Daily market refresh"
+          git push
