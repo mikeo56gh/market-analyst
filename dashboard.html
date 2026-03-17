@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Market Dashboard</title>
+  <style>
+    :root { color-scheme: light; }
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f6f8fb; color: #16202a; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    p { margin: 0 0 12px; }
+    .bar { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0 24px; }
+    button, .upload-label { background: #0b57d0; color: #fff; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 14px; }
+    input[type=file] { display: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .card { background: #fff; border: 1px solid #dde4ee; border-radius: 14px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+    .label { font-size: 12px; text-transform: uppercase; color: #5a6672; margin-bottom: 6px; }
+    .value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .small { font-size: 13px; color: #5a6672; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e8edf3; font-size: 14px; }
+    th { background: #eef3fa; }
+    .section { margin-top: 24px; }
+    .status { margin-top: 8px; color: #5a6672; font-size: 14px; }
+    .pill { display: inline-block; padding: 4px 8px; background: #eef3fa; border-radius: 999px; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Daily Market Dashboard</h1>
+  <p>Static HTML page. Put it on GitHub Pages. It reads latest.json and has a manual file upload fallback.</p>
+  <div class="bar">
+    <button id="refreshBtn">Refresh data</button>
+    <label class="upload-label" for="fileInput">Open local JSON</label>
+    <input id="fileInput" type="file" accept="application/json">
+    <span class="pill" id="lastUpdated">No data loaded</span>
+  </div>
+
+  <div class="grid" id="cards"></div>
+
+  <div class="section">
+    <h2>News signals</h2>
+    <table>
+      <thead><tr><th>Time</th><th>Headline</th><th>Category</th><th>Source</th></tr></thead>
+      <tbody id="newsBody"><tr><td colspan="4">No data yet</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Manual items still needed</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Source</th></tr></thead>
+      <tbody id="manualBody"><tr><td colspan="3">No data yet</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="status" id="status"></div>
+</div>
+<script>
+function fmt(v, suffix='') {
+  if (v === null || v === undefined || v === '') return 'Missing';
+  return `${v}${suffix}`;
+}
+function first(arr) { return Array.isArray(arr) && arr.length ? arr[0] : {}; }
+function setCards(pack) {
+  const storage = (pack.energy?.gas?.storage) || [];
+  const carbon = first(pack.energy?.power?.gb_system_context);
+  const brent = first(pack.energy?.power?.oil_and_macro_proxies);
+  const frgb = (pack.energy?.power?.entsoe_context || []).find(x => x.region === 'FR-GB') || {};
+  const nlpow = (pack.energy?.power?.entsoe_context || []).find(x => x.region === 'NL-GB') || {};
+  const cards = [
+    ['EU gas storage', fmt((storage.find(x => x.region === 'EU') || {}).value, '%')],
+    ['UK gas storage', fmt((storage.find(x => x.region === 'UK') || {}).value, '%')],
+    ['GB carbon intensity', fmt(carbon.value, ' gCO2/kWh')],
+    ['Brent', fmt(brent.value, ' USD/bbl')],
+    ['FR to GB power flow', fmt(frgb.value, ' MW')],
+    ['NL to GB power flow', fmt(nlpow.value, ' MW')],
+  ];
+  document.getElementById('cards').innerHTML = cards.map(([label, value]) => `
+    <div class="card"><div class="label">${label}</div><div class="value">${value}</div></div>
+  `).join('');
+}
+function setNews(pack) {
+  const rows = (pack.news_signals || []).slice(0, 15);
+  const body = document.getElementById('newsBody');
+  if (!rows.length) {
+    body.innerHTML = '<tr><td colspan="4">No news rows found</td></tr>';
+    return;
+  }
+  body.innerHTML = rows.map(r => `
+    <tr>
+      <td>${(r.published_at || '').replace('T',' ').replace('Z','')}</td>
+      <td>${r.url ? `<a href="${r.url}" target="_blank" rel="noreferrer">${r.headline || 'Open'}</a>` : (r.headline || '')}</td>
+      <td>${r.category || ''}</td>
+      <td>${r.source || ''}</td>
+    </tr>
+  `).join('');
+}
+function setManual(pack) {
+  const items = [
+    ['NBP', first(pack.energy?.gas?.uk_nbp)],
+    ['TTF', first(pack.energy?.gas?.eu_ttf)],
+    ['EU ETS', first(pack.energy?.power?.carbon)],
+    ['Ethylene', first(pack.chemicals?.direct_prices)],
+    ['Naphtha', first(pack.chemicals?.feedstocks)],
+  ];
+  const body = document.getElementById('manualBody');
+  body.innerHTML = items.map(([name, item]) => {
+    const val = item.price ?? item.value ?? null;
+    return `<tr><td>${name}</td><td>${val == null ? 'Needs update' : val}</td><td>${item.source || ''}</td></tr>`;
+  }).join('');
+}
+function render(pack, sourceLabel='') {
+  setCards(pack); setNews(pack); setManual(pack);
+  document.getElementById('lastUpdated').textContent = `Report time: ${pack.report_metadata?.report_time_utc || 'unknown'}`;
+  document.getElementById('status').textContent = sourceLabel;
+}
+async function loadLatest() {
+  const bust = `?t=${Date.now()}`;
+  const res = await fetch(`./latest.json${bust}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Could not load latest.json, status ${res.status}`);
+  const pack = await res.json();
+  render(pack, 'Loaded from latest.json');
+}
+document.getElementById('refreshBtn').addEventListener('click', async () => {
+  try { await loadLatest(); } catch (e) { document.getElementById('status').textContent = e.message; }
+});
+document.getElementById('fileInput').addEventListener('change', async (ev) => {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  render(JSON.parse(text), `Loaded from local file: ${file.name}`);
+});
+loadLatest().catch(err => document.getElementById('status').textContent = `${err.message}. Upload a JSON file or add latest.json beside this HTML.`);
+</script>
+</body>
+</html>
