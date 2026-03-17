@@ -1,0 +1,248 @@
+{
+  "report_metadata": {
+    "report_date": "2026-03-17",
+    "report_time_utc": "2026-03-17T16:19:31Z",
+    "timezone": "Europe/London",
+    "coverage_window": {
+      "start": "2026-03-16T16:19:31Z",
+      "end": "2026-03-17T16:19:31Z"
+    },
+    "data_quality_note": "NBP, TTF, EU ETS, ethylene and REMIT still need manual support."
+  },
+  "market_context": {
+    "uk_focus": true,
+    "regions": [
+      "UK",
+      "Europe",
+      "Global"
+    ],
+    "site_profile": {
+      "exposures": [
+        "natural_gas",
+        "power",
+        "steam",
+        "industrial_chemicals",
+        "utilities",
+        "logistics",
+        "decarbonisation_projects"
+      ],
+      "watch_topics": [
+        "plant_upsets_uk",
+        "energy_price_shocks",
+        "europe_chemical_news",
+        "saf",
+        "hydrogen",
+        "ammonia",
+        "ccs"
+      ]
+    }
+  },
+  "energy": {
+    "gas": {
+      "uk_nbp": [
+        {
+          "timestamp": "2026-03-17T16:19:31Z",
+          "price": null,
+          "unit": "GBP/therm",
+          "source": "manual_required",
+          "note": "Read from ICE or broker screen."
+        }
+      ],
+      "eu_ttf": [
+        {
+          "timestamp": "2026-03-17T16:19:31Z",
+          "price": null,
+          "unit": "EUR/MWh",
+          "source": "manual_required",
+          "note": "Read from ICE or broker screen."
+        }
+      ],
+      "entsog_flows": [
+        {
+          "point_name": "Interconnector UK",
+          "country_from": "GB",
+          "country_to": "BE",
+          "flow_direction": "unknown",
+          "value": null,
+          "unit": "kWh/d",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "ENTSOG",
+          "data_quality": "unavailable"
+        }
+      ],
+      "lng": [
+        {
+          "terminal": "UK_LNG_terminals",
+          "metric": "sendout",
+          "value": null,
+          "unit": "kWh/d",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "ENTSOG",
+          "data_quality": "unavailable"
+        }
+      ],
+      "storage": [
+        {
+          "region": "EU",
+          "metric": "storage_level",
+          "value": null,
+          "unit": "%",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "GIE_AGSI_plus",
+          "data_quality": "unavailable",
+          "note": "Set GIE_API_KEY if your AGSI access requires a personal API key."
+        },
+        {
+          "region": "UK",
+          "metric": "storage_level",
+          "value": null,
+          "unit": "%",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "GIE_AGSI_plus",
+          "data_quality": "unavailable",
+          "note": "Set GIE_API_KEY if your AGSI access requires a personal API key."
+        }
+      ]
+    },
+    "power": {
+      "gb_system_context": [
+        {
+          "metric": "carbon_intensity_actual_or_forecast",
+          "region": "GB",
+          "value": 68,
+          "unit": "gCO2/kWh",
+          "timestamp": "2026-03-17T15:30Z",
+          "source": "NESO_Carbon_Intensity",
+          "index": "low"
+        }
+      ],
+      "entsoe_context": [
+        {
+          "metric": "cross_border_flow",
+          "region": "FR-GB",
+          "value": null,
+          "unit": "MW",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "ENTSO-E",
+          "data_quality": "unavailable",
+          "note": "Set ENTSOE_API_KEY."
+        },
+        {
+          "metric": "cross_border_flow",
+          "region": "NL-GB",
+          "value": null,
+          "unit": "MW",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "ENTSO-E",
+          "data_quality": "unavailable",
+          "note": "Set ENTSOE_API_KEY."
+        }
+      ],
+      "oil_and_macro_proxies": [
+        {
+          "value": null,
+          "unit": "USD/bbl",
+          "source": "EIA",
+          "data_quality": "unavailable",
+          "metric": "brent",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "note": "Set EIA_API_KEY."
+        }
+      ],
+      "carbon": [
+        {
+          "metric": "eu_ets_proxy",
+          "value": null,
+          "unit": "EUR/tCO2",
+          "timestamp": "2026-03-17T16:19:31Z",
+          "source": "manual_required",
+          "note": "Read from Ember or ICE EUA futures."
+        }
+      ]
+    }
+  },
+  "chemicals": {
+    "direct_prices": [
+      {
+        "product": "ethylene",
+        "region": "Europe",
+        "price": null,
+        "unit": "EUR/mt",
+        "timestamp": "2026-03-17T16:19:31Z",
+        "source": "manual_required",
+        "note": "No reliable free API."
+      }
+    ],
+    "proxy_series": [
+      {
+        "product_or_chain": "eu_gas_and_ammonia_proxies",
+        "proxy_name": "IMF_PNGASEU_PFERT",
+        "value": null,
+        "unit": "index",
+        "timestamp": "2026-03-17T16:19:31Z",
+        "source": "IMF_Datamapper",
+        "is_proxy": true,
+        "data_quality": "unavailable"
+      }
+    ],
+    "feedstocks": [
+      {
+        "name": "naphtha_proxy",
+        "value": null,
+        "unit": "USD/mt",
+        "timestamp": "2026-03-17T16:19:31Z",
+        "source": "proxy_from_brent",
+        "note": "Estimate from Brent x 7.45 - 50, or overwrite manually."
+      }
+    ],
+    "margin_flags": [
+      {
+        "chain": "olefins",
+        "status": "unknown",
+        "reason": "Ethylene and naphtha need manual support.",
+        "confidence": "Low"
+      }
+    ]
+  },
+  "plant_disruptions": [
+    {
+      "event_id": "remit_manual_check",
+      "date_detected": "2026-03-17T16:19:31Z",
+      "site_name": "Manual check required",
+      "country": "EU/UK",
+      "sector": "all",
+      "event_type": "manual_check",
+      "status": "pending",
+      "description": "Check ACER REMIT, ENTSO-E outage messages, and NESO market notices manually.",
+      "source": "manual",
+      "supply_chain_relevance": "high",
+      "likely_duration": "unknown",
+      "confidence": "Manual check required"
+    }
+  ],
+  "news_signals": [],
+  "new_energies": {
+    "saf": {
+      "projects": [],
+      "policy": []
+    },
+    "hydrogen": {
+      "projects": [],
+      "cost_proxies": []
+    },
+    "ammonia": {
+      "projects": [],
+      "price_proxies": []
+    },
+    "ccs": {
+      "projects": [],
+      "policy_support": []
+    }
+  },
+  "manual_analyst_notes": [
+    {
+      "note": "Enter manual prices before using this pack for the final brief.",
+      "priority": "high"
+    }
+  ]
+}
